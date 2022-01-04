@@ -43,7 +43,7 @@ class deliveryTimeWoocommerce {
       ?>
       <div class="error">
           <p>
-              <?php _e('Delivery Time for WooCommerce requires Woocommerce plugin to work. Please install and activate it.'); ?>
+              <?php _e('Delivery Time for WooCommerce requires Woocommerce plugin to work. Please install and activate it.', 'woocommerce-delivery-time'); ?>
           </p>
       </div>
       <?php
@@ -61,20 +61,20 @@ class deliveryTimeWoocommerce {
   public function getFields() {
       $settings = array(
           'section_title' => array(
-              'name'     => 'Delivery Time for Woocommerce',
+              'name'     => __('Delivery Time for Woocommerce', 'woocommerce-delivery-time'),
               'type'     => 'title',
               'desc'     => '',
               'id'       => 'wc_settings_tab_delivery_time_title'
           ),
           array(
-              'name' => 'Delivery Time',
+              'name' => __('Delivery Time', 'woocommerce-delivery-time'),
               'type' => 'number',
               'desc' => 'This time will show on the page',
               'custom_attributes' => array('required' => 'true', 'min' => '0'),
               'id'   => 'wc_settings_tab_delivery_time_name'
           ),
           array(
-            'name'         => 'Display on',
+            'name'         => __('Display on', 'woocommerce-delivery-time'),
             'id'            => 'wc_settings_tab_delivery_time_display_on',
             'type'          => 'multiselect',
             'custom_attributes' => array('multiple' => 'true'),
@@ -85,7 +85,7 @@ class deliveryTimeWoocommerce {
             ),
         ),
           array(
-              'name' =>'Color',
+              'name' => __('Color','woocommerce-delivery-time'),
               'type' => 'color',
               'id' => 'wc_settings_tab_delivery_time_color'
           ),
@@ -105,7 +105,7 @@ class deliveryTimeWoocommerce {
       woocommerce_wp_text_input(
         array(
             'id' => '_custom_product_delivery_time',
-            'label' => __('Delivery time'),
+            'label' => __('Delivery time', 'woocommerce-delivery-time'),
             'type' => 'number',
             'value' => $deliveryTimeVal,
             'custom_attributes' => array(
@@ -117,7 +117,7 @@ class deliveryTimeWoocommerce {
       woocommerce_wp_textarea_input(
         array(
             'id' => '_custom_product_delivery_time_desc',
-            'label' => __('Delivery time description'),
+            'label' => __('Delivery time description', 'woocommerce-delivery-time'),
             'value' => $deliveryTimeDescVal
         )
       );
@@ -128,7 +128,7 @@ class deliveryTimeWoocommerce {
     $woocommerce_product_delivery_time_desc = $_POST['_custom_product_delivery_time_desc'];
     if (!empty($woocommerce_product_delivery_time) || $woocommerce_product_delivery_time == 0)
         update_post_meta($post_id, '_custom_product_delivery_time',  esc_attr($woocommerce_product_delivery_time));
-    if(!empty($woocommerce_product_delivery_time_desc))
+        
         update_post_meta($post_id, '_custom_product_delivery_time_desc',  esc_attr($woocommerce_product_delivery_time_desc));
   }
   public function showDeliveryTime(){
@@ -167,7 +167,7 @@ class deliveryTimeWoocommerce {
     $text .= '</div>';
 
     if($flag)
-      echo $text;
+      _e($text, 'woocommerce-delivery-time');
   }
   public function enqueueScripts() {
     wp_enqueue_style('deliveryTime', plugins_url('css/style.css', __FILE__),'',null);
@@ -175,7 +175,7 @@ class deliveryTimeWoocommerce {
     wp_localize_script( 'deliveryTime', 'delivery_time', array('ajaxurl' => admin_url('admin-ajax.php')));
   }
   public function getDeliveryTimeDescFunc(){
-    $notFound = 'No description found!';
+    $notFound = __('No description found!', 'woocommerce-delivery-time');
     if(isset($_POST['id'])){
       $id = $_POST['id'];
         $deliveryTimeVal =  get_post_meta($id, '_custom_product_delivery_time_desc', true);
